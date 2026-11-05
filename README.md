@@ -20,46 +20,71 @@ Primeira versão funcional de uma plataforma própria de mídia indoor. Ela foi 
 - Tabela Online por TV: edita o conteúdo publicado e atualiza as telas preservando outras alterações em rascunho.
 - Seis templates de tabela com fotos, prévia ao vivo, grade de Hortifruti, promoção de Frios e 110 fundos adaptados; veja [Templates com fotos](docs/TEMPLATES.md).
 
-Veja [recursos e limites dos conteúdos](docs/CONTEUDOS.md) e [os controles do cartaz](docs/CARTAZ.md). Validade opcional de peças digitais e importação CSV de produtos em cartazes/tabelas estão disponíveis. Temas reutilizáveis, imagem de fundo, rotação, seleção de playlists no cartaz, integração automática ERP, ingestão direta de Instagram, exportação MP4 e exclusão automática após validade permanecem pendentes.
+Veja [recursos e limites dos conteúdos](docs/CONTEUDOS.md), [os controles do cartaz](docs/CARTAZ.md) e o [guia de campanhas](docs/CAMPANHAS.md) para temas reutilizáveis, ERP e exportação em MP4.
 
-## Executar
+## Instalação
 
-Requer Node.js 24.15 ou superior. Não há dependências externas a instalar.
+Escolha a instalação direta com **Node.js 24.15 ou superior** ou a opção com **Docker**. Execute os comandos no computador que hospedará o VideoWall.
 
-```powershell
-cd C:\Users\operador\Downloads\nic\videowall
-& 'C:\Users\operador\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' server.mjs
+### 1. Baixe o projeto
+
+```sh
+git clone https://github.com/niccolasreis-lab/videowall.git
+cd videowall
 ```
 
-Abra `http://127.0.0.1:3210` para criar o administrador da rede. Em outro navegador, TV ou computador, abra `http://127.0.0.1:3210/player`. O painel pede o código exibido pelo player para vinculá-lo a um ponto.
+### 2. Inicie o servidor
 
-Para acesso em uma rede local, inicie com `HOST=0.0.0.0`, use o endereço IP local do computador no outro dispositivo e mantenha o firewall liberado somente para a rede confiável. Para uso público, coloque a aplicação atrás de HTTPS e defina `SECURE_COOKIES=true`.
+**Com Node.js**. Instale o Node.js, reabra o terminal e execute:
 
-## Docker
+```sh
+node --version
+node server.mjs
+```
 
-O `Dockerfile` na raiz do repositório é autossuficiente: a imagem `node:24-alpine` já traz `node:sqlite`, não há dependências a instalar e o processo roda como usuário `node`.
+A aplicação usa os módulos incluídos no Node.js. Deixe o terminal aberto enquanto estiver usando o VideoWall. Para parar o servidor, pressione **Ctrl+C**.
+
+**Com Docker**. Com o Docker em execução, rode na pasta do projeto:
+
+```sh
+docker build -t videowall .
+docker run -d --name videowall --restart unless-stopped -p 127.0.0.1:3210:3000 -v videowall-data:/data videowall
+docker logs videowall
+```
+
+O volume `videowall-data` guarda o banco e os arquivos enviados. Use o mesmo volume se recriar o contêiner. Para parar ou iniciar o contêiner existente, use `docker stop videowall` ou `docker start videowall`.
+
+### 3. Configure o painel e a primeira tela
+
+1. No computador do servidor, abra `http://127.0.0.1:3210`.
+2. Preencha o nome da rede, escolha um usuário e crie uma senha exclusiva com pelo menos 10 caracteres.
+3. Em **Conteúdos**, envie uma imagem ou vídeo. Em **Playlists**, crie uma sequência com esse conteúdo, salve e clique em **Publicar**.
+4. Em **Pontos**, cadastre a tela e atribua a playlist publicada.
+5. Para testar no mesmo computador, abra `http://127.0.0.1:3210/player` em outra aba. No painel, clique em **Vincular** no ponto e informe o código exibido no player.
+6. Confirme que o conteúdo aparece no player e que o ponto fica online em **Monitoramento**.
+
+### 4. Acesse pela TV
+
+`127.0.0.1` aponta sempre para o próprio aparelho. Para usar uma TV na rede da loja, configure um proxy HTTPS no servidor e encaminhe as solicitações para a porta 3210. Use um certificado aceito pelo navegador da TV. Abra `https://SEU-ENDERECO/player` na TV, substituindo `SEU-ENDERECO` pelo endereço configurado, e vincule o código exibido.
+
+Quando o painel estiver acessível por HTTPS, configure `SECURE_COOKIES=true` no processo Node.js ou no contêiner. Se o proxy estiver em outra máquina, exponha a porta interna somente à rede confiável e restrinja o acesso no firewall. HTTPS também habilita o cache offline na TV. Consulte o [guia do modo offline](docs/OFFLINE.md).
+
+### Variáveis de ambiente
 
 | Variável | Padrão | Efeito |
 | --- | --- | --- |
-| `PORT` | `3210` | Porta HTTP. |
-| `HOST` | `127.0.0.1`, ou `0.0.0.0` dentro de container | Interface de escuta. |
-| `APP_DATA_DIR` | `./data` | Diretório do SQLite e dos uploads. |
-| `SECURE_COOKIES` ou `COOKIE_SECURE` | `false` | Marca os cookies como `Secure`; exige HTTPS. |
-
-```powershell
-docker build -t videowall .
-docker run -d -p 3210:3000 -v videowall-data:/data videowall
-```
-
-O volume em `/data` guarda banco e mídias. Sem ele, tudo é perdido ao recriar o container. Para publicar, a origem precisa ser um repositório Git cujo `Dockerfile` esteja na raiz — o app ocupa a raiz do repositório, não uma subpasta.
+| `PORT` | `3210` direto, `3000` no Docker | Porta HTTP interna. |
+| `HOST` | `127.0.0.1` direto, `0.0.0.0` no Docker | Interface de escuta. |
+| `APP_DATA_DIR` | `./data` direto, `/data` no Docker | Diretório do SQLite e dos uploads. |
+| `SECURE_COOKIES` ou `COOKIE_SECURE` | `false` | Use `true` com HTTPS para proteger os cookies de sessão. |
 
 ### Baseline sem git
 
 Este projeto também pode ser verificado sem git, pelo manifesto de hashes:
 
 ```powershell
-& 'C:\Users\operador\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' scripts/baseline.mjs
-& 'C:\Users\operador\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' scripts/baseline.mjs --check
+node scripts/baseline.mjs
+node scripts/baseline.mjs --check
 ```
 
 O primeiro comando grava `docs/BASELINE.json`; o segundo compara e lista arquivos novos, alterados e removidos, saindo com código 1 quando houver diferença. `data/`, `backups/`, `.test-data/` e `node_modules/` ficam de fora.
@@ -94,7 +119,7 @@ O banco SQLite e os uploads ficam em `data/`, que não é versionado. Faça back
 ## Verificação
 
 ```powershell
-& 'C:\Users\operador\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' --test --test-concurrency=1 tests\*.test.mjs
+npm test
 ```
 
 O teste percorre administrador, ponto, registro/vínculo do player, upload, playlist, publicação, sincronização, evento de reprodução e relatórios agregados.
