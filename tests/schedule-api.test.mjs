@@ -18,5 +18,5 @@ test('agenda só muda na publicação e atualização de conteúdo preserva agen
   await call('/api/content/'+content.id+'/publish','POST',{});
   assert.deepEqual(published().schedule,schedule);assert.equal((await call('/api/playlists')).body[0].dirty,true,'o horário pendente não é marcado como publicado');
   assert.equal((await call('/api/playlists/'+playlist.id,'PUT',{name:playlist.name,items:playlist.items,revision:(await call('/api/playlists')).body[0].revision,schedule:{enabled:true,timeZone:'Invalido',windows:[]}})).status,400);
- }finally{await new Promise(resolve=>app.server.close(resolve));app.close();await rm(dir,{recursive:true,force:true});}
+ }finally{await new Promise(resolve=>app.server.close(resolve));await app.close();await rm(dir,{recursive:true,force:true});}
 });

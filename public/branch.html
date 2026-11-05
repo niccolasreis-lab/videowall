@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VideoWall · Portal da filial</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/campaigns.css">
+  <script type="module" src="/branch.js"></script>
+</head>
+<body>
+  <main class="branch-portal">
+    <h1>Portal da filial</h1>
+    <section class="card campaign-card" id="branch-entry">
+      <form class="campaign-form" id="branch-login">
+        <label class="field"><span>Chave da filial</span><input name="token" type="password" required autocomplete="off" minlength="64" maxlength="64"></label>
+        <button class="btn primary">Entrar</button>
+        <p role="status" class="campaign-status"></p>
+      </form>
+    </section>
+    <div id="branch-content"></div>
+  </main>
+</body>
+</html>

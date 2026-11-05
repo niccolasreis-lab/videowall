@@ -7,10 +7,13 @@ export function pointState(point) {
  if(point.playbackState==='playing' && point.currentMedia)return {key:'playing',label:'Reproduzindo'};
  return {key:'waiting',label:'Online sem exibir'};
 }
-export function matchesPointFilter(point,filter) {
+export function matchesPointFilter(point,filter,now=Date.now()) {
+ if(Array.isArray(filter))return !filter.length||filter.some(value=>matchesPointFilter(point,value,now));
  if(filter==='all')return true;
  if(filter==='online')return point.online;
  if(filter==='offline')return !point.online;
+ if(filter==='offline5'||filter==='offline30')return !!point.paired&&!point.online&&Number.isFinite(point.lastSeen)&&now-point.lastSeen>=(filter==='offline5'?5:30)*86400000;
+ if(filter==='no_playlist')return !point.publishedVersion;
  return pointState(point).key===filter;
 }
 

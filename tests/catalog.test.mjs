@@ -41,7 +41,8 @@ test('catálogo revisa, aplica, detecta preço zero e publica só o conteúdo es
   assert.equal(reviewedAgain.body.id,stale.body.id);
   assert.equal((await call('/api/catalog/imports/'+stale.body.id+'/apply','POST',{})).status,200);
   const zero=await call('/api/catalog/imports','POST',{text:line('001002',0)});await call('/api/catalog/imports/'+zero.body.id+'/apply','POST',{});await call('/api/catalog/refresh-content','POST',{});
-  assert.equal(JSON.parse(app.db.prepare('SELECT config_json FROM virtual_content WHERE id=?').get(content.body.id).config_json).rows[0].active,false);
+  assert.equal(JSON.parse(app.db.prepare('SELECT config_json FROM virtual_content WHERE id=?').get(content.body.id).config_json).rows[0].active,true);
+  assert.equal(JSON.parse(app.db.prepare('SELECT config_json FROM virtual_content WHERE id=?').get(content.body.id).config_json).rows[0].catalogUnavailable,true);
   await writeFile(join(dir,'itensmgv.txt'),line('001002',9000));app.catalog.configure({path:dir,enabled:true});await app.catalog.check();const count=app.catalog.status().imports.length;await app.catalog.check();assert.equal(app.catalog.status().imports.length,count+1);assert.equal(app.catalog.status().imports[0].status,'pending');
- }finally{await new Promise(resolve=>app.server.close(resolve));app.close();await rm(dir,{recursive:true,force:true});}
+ }finally{await new Promise(resolve=>app.server.close(resolve));await app.close();await rm(dir,{recursive:true,force:true});}
 });

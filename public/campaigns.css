@@ -1,0 +1,23 @@
+.campaign-tabs,.campaign-actions {display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}
+.campaign-tabs {margin:0 0 1rem}
+.campaign-card {padding:1.2rem;margin:0 0 1rem}
+.campaign-card h2,.campaign-card h3 {margin:0 0 .7rem}
+.campaign-form {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:.75rem;align-items:end;margin:.8rem 0}
+.campaign-form .field {margin:0}
+.campaign-form fieldset {min-width:0;border:1px solid #b8c7cc;border-radius:.5rem;padding:.8rem}
+.campaign-form input[type=color] {width:100%;min-height:2.45rem}
+.campaign-wide,.campaign-status {grid-column:1/-1}
+.campaign-status:empty {display:none}
+.campaign-status input {width:min(100%,39rem)}
+.campaign-records {margin-top:1rem;display:grid;gap:.75rem}
+.campaign-records article,.campaign-records li {padding:.75rem;border:1px solid #b8c7cc;border-radius:.5rem}
+.campaign-records small {display:block;margin:.3rem 0}
+.campaign-preview {position:relative;overflow:hidden;container-type:size;width:min(100%,34rem);aspect-ratio:16/9}
+.campaign-preview[data-orientation=vertical] {width:min(100%,15rem);aspect-ratio:9/16}
+.campaign-preview .content-card {position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:1rem}
+.campaign-preview .price-rows {display:grid;gap:.25rem}
+.campaign-preview .price-row {display:flex;justify-content:space-between;gap:1rem}
+.campaign-preview .poster-brand-logo {position:absolute;top:3%;left:4%;width:17%;height:14%;object-fit:contain}
+.branch-portal {max-width:64rem;margin:2rem auto;padding:0 1rem}
+.branch-portal #branch-content > button {margin-bottom:1rem}
+#alert-indicator[hidden],#stop-export[hidden] {display:none}

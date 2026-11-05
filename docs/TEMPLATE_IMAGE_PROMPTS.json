@@ -1,0 +1,67 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "transparent_background": false,
+  "assets": [
+    {
+      "id": "supermarket",
+      "file": "public/template-assets/supermarket-v1.jpg",
+      "prompt": "Create a premium photorealistic food photograph for the supermarket section of a Brazilian indoor digital menu. Portrait composition, basket with fresh produce, milk bottle without label, bread and plain grocery bags on dark graphite tabletop, soft directional studio light, appetizing natural textures. All food and basket centered with breathing room for cropping to a narrow vertical sidebar. No text, typography, price, logo, watermark or branded packaging. This is only a food photo asset, not a graphic design or menu."
+    },
+    {
+      "id": "produce",
+      "file": "public/template-assets/produce-v1.jpg",
+      "prompt": "Portrait food photography for the fresh produce section of a Brazilian digital menu: abundant fresh bananas, apples, oranges, papaya, tomatoes, carrots and leafy greens in wooden crates, dark forest green backdrop, fresh natural light. Centered grouping with room to crop to a tall sidebar. Create only the photograph asset, no layout, text, words, prices, logos, brands, labels or watermark."
+    },
+    {
+      "id": "butcher",
+      "file": "public/template-assets/butcher-v1.jpg",
+      "prompt": "Portrait premium butcher counter food photography: fresh raw beef steaks with natural marbling, small rosemary sprigs and peppercorns on a dark burgundy slate board. Clean appetizing professional food styling, no blood, centered composition with room for a tall sidebar crop. Create only the photograph asset, no layout, text, words, prices, logos, brands, labels or watermark."
+    },
+    {
+      "id": "bakery",
+      "file": "public/template-assets/bakery-v1.jpg",
+      "prompt": "Portrait artisan bakery food photography: golden Brazilian bread rolls, baguette, croissant and a rustic sourdough loaf on warm wood and beige linen, a few wheat stalks, soft warm morning light. Centered grouping with room for a tall sidebar crop. Create only the photograph asset, no layout, text, words, prices, logos, brands, labels or watermark."
+    },
+    {
+      "id": "deli",
+      "file": "public/template-assets/deli-v1.jpg",
+      "prompt": "Wide premium delicatessen food photography: wedges of yellow cheese, white fresh cheese, rolled slices of ham and roast beef on a dark slate platter. Warm side light, natural detailed textures, food concentrated in center with dark breathing room at sides for a horizontal menu header crop. Create only the photograph asset, no layout, text, words, prices, logos, brands, labels or watermark."
+    },
+    {
+      "id": "mango",
+      "file": "public/template-assets/mango-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of one whole ripe mango and one cut mango half with golden flesh. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    },
+    {
+      "id": "pineapple",
+      "file": "public/template-assets/pineapple-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of one ripe pineapple with green crown and a fresh slice. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    },
+    {
+      "id": "peach",
+      "file": "public/template-assets/peach-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of two ripe peaches and a cut peach half. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    },
+    {
+      "id": "apple",
+      "file": "public/template-assets/apple-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of two red apples and a cut apple half. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    },
+    {
+      "id": "orange",
+      "file": "public/template-assets/orange-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of one whole orange with leaf and an orange half. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    },
+    {
+      "id": "kiwi",
+      "file": "public/template-assets/kiwi-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of one whole kiwi and two kiwi halves showing green flesh. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    },
+    {
+      "id": "roast-beef",
+      "file": "public/template-assets/roast-beef-v1.jpg",
+      "prompt": "Use case: product-mockup. Photorealistic professional food catalog photograph of thin folded slices of cooked roast beef with browned edges and rosy cooked interior on a small dark slate plate. Landscape 4:3 framing, centered isolated subject fully visible, white seamless studio background, very soft natural shadow, bright diffused light, crisp natural texture. Consistent premium Brazilian grocery photography. Photo asset only: no typography, text, price, labels, brands, watermark or graphic layout."
+    }
+  ],
+  "preparation": "Generated PNG originals retained in CODEX_HOME/generated_images. Project JPEG copies encoded at quality 88, limited to 1440 by 1440 without changing aspect ratio. ZIP backgrounds decoded, deduplicated by SHA-256 and encoded at quality 88, limited to 1920 by 1080. No external image URLs at playback."
+}

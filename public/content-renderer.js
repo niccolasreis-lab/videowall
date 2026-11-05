@@ -1,8 +1,12 @@
 import {productPages} from './content-utils.js';
+import {renderTable} from './table-renderer.js';
+import {imageUrl} from './table-templates.js';
 function element(tag, text, parent, className = '') { const node = document.createElement(tag); node.textContent = text ?? ''; node.className = className; parent.append(node); return node; }
 const money = value => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 export function renderVirtual(item, container, onReady = () => {}, onError = () => {}) {
   const c = item.config || {};
+  if(c.catalogUnavailable===true){element('p','Nenhum produto disponível',container);return;}
+  if (item.kind === 'price_table' && renderTable(item,container)) return;
   if (['web', 'youtube'].includes(item.kind)) {
     const frame = document.createElement('iframe'); frame.title = item.name; frame.referrerPolicy = 'no-referrer'; frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation'); frame.allow = 'autoplay; fullscreen';
     frame.src = item.kind === 'youtube' ? `https://www.youtube-nocookie.com/embed/${c.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${c.videoId}` : c.url;
@@ -15,14 +19,28 @@ export function renderVirtual(item, container, onReady = () => {}, onError = () 
     const size = Number(c[key]);
     if (Number.isInteger(size) && size >= 8 && size <= 200) card.style.setProperty(property, `${size}px`);
   }
+  if (item.kind === 'poster') {
+    const background = imageUrl(c.backgroundImage), logo = imageUrl(c.logoImage);
+    if (background) {
+      card.style.backgroundImage = 'linear-gradient(#0005,#0008),url("'+background+'")';
+      card.style.backgroundSize = 'cover';
+      card.style.backgroundPosition = 'center';
+    }
+    if (logo) {
+      const image = element('img','',card,'poster-brand-logo');
+      image.src=logo;
+      image.alt='';
+    }
+  }
   if (item.kind === 'price_table' && c.tableTheme === 'market') card.classList.add('theme-market');
   if (!(item.kind === 'poster' && c.hideHeader)) element('h1', c.title || c.city || item.name, card);
+  if(c.priceType&&c.priceType!=='normal')element('small',c.priceType==='club'?'Preço de clube':'Preço de oferta',card,'price-type-label');
   if (item.kind === 'poster') element('p', c.body, card);
-  if (item.kind === 'offer') { if (c.oldPrice != null) element('del', money(c.oldPrice), card); element('strong', money(c.price), card, 'offer-price'); element('p', c.body, card); }
+  if (item.kind === 'offer') { if (c.oldPrice != null) element('del', money(c.oldPrice), card); element('strong', money(c.price)+(c.unit?' / '+c.unit:''), card, 'offer-price'); element('p', c.body, card); }
   if (item.kind === 'price_table' || item.kind === 'poster' && c.rows?.length) {
-    const table = element('div', '', card, 'price-rows'); const rows = (c.rows || []).filter(row => row.active !== false);
+    const table = element('div', '', card, 'price-rows'); const rows = (c.rows || []).filter(row => row.active !== false && !row.catalogUnavailable);
     const unit = row => c.showUnit === false ? '' : row.unit ? ` / ${row.unit}` : '';
-    const paint = selected => { table.replaceChildren(); for (const row of selected) { const line = element('div', '', table, 'price-row'); element('span', row.name, line); element('strong', money(row.price) + unit(row), line); } };
+    const paint = selected => { table.replaceChildren(); for (const row of selected) { const line = element('div', '', table, 'price-row'); element('span', row.name+(item.kind==='price_table'&&c.priceFormat==='inline'?' =':''), line); element('strong', money(row.price) + unit(row), line); } };
     if (item.kind === 'price_table') {
       const pages = productPages(rows), pageCount = pages.length;
       const counter = element('small','',card,'table-page-counter'); let pageIndex = 0;

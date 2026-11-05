@@ -8,6 +8,7 @@ Primeira versão funcional de uma plataforma própria de mídia indoor. Ela foi 
 - Cadastro, edição e remoção de pontos de exibição.
 - Player web independente, com vínculo por código temporário.
 - Upload validado de PNG, JPEG, WebP, GIF, MP4 e WebM.
+- Envio em lote com progresso por arquivo, seleção de playlists, configurações comuns e recuperação de pendências sem repetir cadastros confirmados.
 - Biblioteca de mídias com visualização e proteção contra remover conteúdo publicado.
 - Edição de playlists: ordem, repetição de conteúdos e duração por imagem.
 - Publicações versionadas: as telas recebem somente a última versão publicada.
@@ -17,6 +18,7 @@ Primeira versão funcional de uma plataforma própria de mídia indoor. Ela foi 
 - Biblioteca por tipo, com YouTube/Shorts, cartazes, imagens de produtos, ofertas, tabelas de preços, clima e páginas Web.
 - Cartazes com quatro layouts, até seis produtos, ciclo de alternância, prévia ao vivo, tamanhos de fonte por elemento, unidade, cantos, degradê e cabeçalho opcional; tabelas com até cinquenta produtos e ativação individual.
 - Tabela Online por TV: edita o conteúdo publicado e atualiza as telas preservando outras alterações em rascunho.
+- Seis templates de tabela com fotos, prévia ao vivo, grade de Hortifruti, promoção de Frios e 110 fundos adaptados; veja [Templates com fotos](docs/TEMPLATES.md).
 
 Veja [recursos e limites dos conteúdos](docs/CONTEUDOS.md) e [os controles do cartaz](docs/CARTAZ.md). Validade opcional de peças digitais e importação CSV de produtos em cartazes/tabelas estão disponíveis. Temas reutilizáveis, imagem de fundo, rotação, seleção de playlists no cartaz, integração automática ERP, ingestão direta de Instagram, exportação MP4 e exclusão automática após validade permanecem pendentes.
 
@@ -64,6 +66,8 @@ O primeiro comando grava `docs/BASELINE.json`; o segundo compara e lista arquivo
 
 ## Fluxo de uso
 
+O menu **Campanhas** reúne publicação por filial e setor, portal com chaves de acesso, identidade visual, cargas do ERP, alertas e relatórios de veiculação. Também exporta sequências de ofertas em MP4. Consulte o [guia de campanhas](docs/CAMPANHAS.md).
+
 O editor de playlists inclui pesquisa na biblioteca, reordenação por arraste/setas, duração total com metadados dos vídeos e prévia manual da sequência sem publicar. Consulte [o guia do editor](docs/EDITOR.md).
 
 As playlists aceitam **programação semanal**, com fuso, dias e múltiplas faixas de horário. As regras só chegam às TVs depois de publicar e continuam valendo offline. Consulte [o guia de agendamento](docs/AGENDAMENTO.md).
@@ -94,3 +98,5 @@ O banco SQLite e os uploads ficam em `data/`, que não é versionado. Faça back
 ```
 
 O teste percorre administrador, ponto, registro/vínculo do player, upload, playlist, publicação, sincronização, evento de reprodução e relatórios agregados.
+
+Consulte [Operação](docs/OPERACAO.md) para catálogo com três preços, subplaylists, monitoramento e relatórios; a [verificação operacional](docs/OPERACAO_VERIFICACAO.md) registra os testes e as limitações da entrega.

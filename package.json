@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24.15.0" },
+  "engines": {
+    "node": ">=24.15.0"
+  },
   "scripts": {
     "start": "node server.mjs",
     "dev": "node --watch server.mjs",
     "test": "node --test --test-concurrency=1 tests/*.test.mjs",
-    "check": "node --check server.mjs && node --check src/app.mjs && node --check src/database.mjs && node --check src/media.mjs && node --check public/app.js && node --check public/player.js"
+    "check": "node --check server.mjs && node --check src/app.mjs && node --check src/database.mjs && node --check src/media.mjs && node --check src/content.mjs && node --check public/app.js && node --check public/player.js && node --check public/table-templates.js && node --check public/table-renderer.js && node --check public/table-editor.js && node --check public/template-backgrounds.js && node --check public/player-sw.js && node --check public/offline-player.js && node --check src/image-bank.mjs && node --check src/musardos-images.mjs && node --check public/image-bank-ui.js && node --check src/catalog-prices.mjs && node --check src/catalog-content.mjs && node --check src/playlist-graph.mjs && node --check src/operations.mjs && node --check public/monitor-ui.js && node --check public/upload-queue.js && node --check public/upload-ui.js && node --check src/campaigns.mjs && node --check src/erp-inbox.mjs && node --check public/campaign-ui.js && node --check public/campaign-video.js && node --check public/branch.js"
   }
 }

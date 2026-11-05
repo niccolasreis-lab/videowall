@@ -1,4 +1,11 @@
 import { HttpError } from './media.mjs';
+import {findTableTemplate,validImageRef,tablePriceFormats} from '../public/table-templates.js';
+
+function imageRef(value) {
+  if(value==null || value==='')return null;
+  if(!validImageRef(value))throw new HttpError(400,'Referência de imagem inválida. Escolha uma imagem da biblioteca ou de fábrica.');
+  return {source:value.source,id:value.id};
+}
 
 function text(value, label, max = 500, required = false) {
   if (value === undefined && !required) return '';
@@ -66,6 +73,8 @@ export function validateContent(body) {
       rounded: boolean(c.rounded, 'Cantos arredondados', false),
       gradient: boolean(c.gradient, 'Fundo degradê', false),
       showUnit: boolean(c.showUnit, 'Mostrar unidade', true),
+      ...(c.logoImage ? {logoImage:imageRef(c.logoImage)} : {}),
+      ...(c.backgroundImage ? {backgroundImage:imageRef(c.backgroundImage)} : {}),
       ...sizes,
     };
   }
@@ -73,8 +82,12 @@ export function validateContent(body) {
   else if (kind === 'price_table') {
     if (!Array.isArray(c.rows) || !c.rows.length || c.rows.length > 50) throw new HttpError(400, 'A tabela aceita de 1 a 50 produtos.');
     const tableTheme = c.tableTheme || 'custom';
-    if (!['custom','market'].includes(tableTheme)) throw new HttpError(400, 'Tema de tabela inválido.');
-    config = { ...theme(), title: text(c.title, 'Título', 160, true), rows: rows(50), tableTheme };
+    const priceFormat=c.priceFormat??'standard';
+    if(!tablePriceFormats.some(format=>format.id===priceFormat))throw new HttpError(400,'Formato de preço inválido.');
+    if (!['custom','market'].includes(tableTheme) && !findTableTemplate(tableTheme)) throw new HttpError(400, 'Tema de tabela inválido.');
+    const tableRows=rows(50).map((row,index)=>({...row,featured:boolean(c.rows[index].featured,'Produto em destaque',false),image:imageRef(c.rows[index].image),catalogUnavailable:boolean(c.rows[index].catalogUnavailable,'Disponibilidade do produto',false)}));
+    if(tableRows.filter(row=>row.featured).length>1)throw new HttpError(400,'Selecione somente um produto em destaque.');
+    config = { ...theme(), title: text(c.title, 'Título', 160, true), rows: tableRows, tableTheme,priceFormat,sectorImage:imageRef(c.sectorImage),backgroundImage:imageRef(c.backgroundImage) };
   } else if (kind === 'weather') {
     const latitude = Number(c.latitude), longitude = Number(c.longitude);
     if (c.latitude === '' || c.longitude === '' || !Number.isFinite(latitude) || !Number.isFinite(longitude) || Math.abs(latitude) > 90 || Math.abs(longitude) > 180) throw new HttpError(400, 'Latitude ou longitude inválida.');
@@ -83,6 +96,7 @@ export function validateContent(body) {
   if (c.orientation && !['horizontal','vertical'].includes(c.orientation)) throw new HttpError(400, 'Orientação inválida.');
   if (c.font && !['sans','serif','mono'].includes(c.font)) throw new HttpError(400, 'Fonte inválida.');
   config.orientation = c.orientation || 'horizontal'; config.font = c.font || 'sans';
+  if(c.priceType!==undefined){if(!['normal','offer','club'].includes(c.priceType))throw new HttpError(400,'Tipo de preço inválido.');config.priceType=c.priceType;}
   if(c.catalogUnavailable === true)config.catalogUnavailable=true;
   if(c.productKey){if(typeof c.productKey!=='string'||!/^\d{2}:\d{6}$/.test(c.productKey))throw new HttpError(400,'Produto do catálogo inválido.');config.productKey=c.productKey;}
   if (c.secondsPerItem != null) { const seconds = Number(c.secondsPerItem); if (!Number.isInteger(seconds) || seconds < 1 || seconds > 3600) throw new HttpError(400, 'Tempo por produto inválido.'); config.secondsPerItem = seconds; }

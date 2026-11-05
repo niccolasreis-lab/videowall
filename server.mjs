@@ -23,6 +23,6 @@ let closing = false;
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => {
   if (closing) return;
   closing = true;
-  app.server.close(() => { app.close(); process.exit(0); });
+  app.server.close(() => { Promise.resolve(app.close()).finally(()=>process.exit(0)); });
   app.server.closeIdleConnections();
 });

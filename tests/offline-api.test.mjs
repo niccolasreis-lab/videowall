@@ -39,5 +39,5 @@ test('histórico offline mantém horário original, autoriza publicação entreg
   assert.equal((await call('/api/player/sync',{cookie:device,method:'POST',body:{events:Array(201).fill(event)}})).status,400);
   await call('/api/points/'+point.id+'/unpair',{cookie:admin,method:'POST',body:{}});
   assert.equal((await call('/api/player/sync',{cookie:device,method:'POST',body:payload})).status,401);
- }finally{await new Promise(resolve=>app.server.close(resolve));app.close();await rm(dataDir,{recursive:true,force:true});}
+ }finally{await new Promise(resolve=>app.server.close(resolve));await app.close();await rm(dataDir,{recursive:true,force:true,maxRetries:5,retryDelay:100});}
 });

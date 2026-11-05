@@ -20,7 +20,7 @@ test.before(async () => {
 });
 test.after(async () => {
   await new Promise(resolve => app.server.close(resolve));
-  app.close();
+  await app.close();
   await rm(dataDir, { recursive: true, force: true });
 });
 

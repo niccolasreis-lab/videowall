@@ -5,3 +5,8 @@ backups/
 *.log
 node_modules/
 verification/screenshots/
+verification/FundosMidiaIndoor.zip
+verification/generated-sources.json
+verification/backgrounds-*.jpg
+verification/test-data/
+verification/operational-runtime/

@@ -1,0 +1,3 @@
+.theme-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.poster-themes{padding:16px;border:1px solid var(--border,#dbe5e9);border-radius:12px;background:#f5f9f8}
+.poster-themes .theme-status{font-size:13px;color:#245b4a;min-height:1.4em;overflow-wrap:anywhere}

@@ -11,7 +11,7 @@ async function fixture(action){
  let cookie;const origin='http://127.0.0.1:'+app.server.address().port;
  const call=async(path,method='GET',body,headers={})=>{const response=await fetch(origin+path,{method,headers:{'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{}),...headers},...(body!==undefined?{body:Buffer.isBuffer(body)?body:JSON.stringify(body)}:{})});return {status:response.status,body:await response.json(),cookie:response.headers.get('set-cookie')?.split(';')[0]};};
  try{cookie=(await call('/api/auth/setup','POST',{username:'admin',password:'long-password-123',workspace:'Test'})).cookie;await action({call,app,dataDir});}
- finally{await new Promise(resolve=>app.server.close(resolve));app.close();await rm(dataDir,{recursive:true,force:true});}
+ finally{await new Promise(resolve=>app.server.close(resolve));await app.close();await rm(dataDir,{recursive:true,force:true,maxRetries:5,retryDelay:100});}
 }
 const png=Buffer.from([137,80,78,71,13,10,26,10,0,0,0,0]);
 test('envio direto adiciona a vários rascunhos, não duplica e reverte todo lote em conflito',()=>fixture(async({call,app})=>{

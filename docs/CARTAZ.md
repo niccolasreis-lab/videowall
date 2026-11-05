@@ -56,11 +56,19 @@ A prévia é manual e isolada:
 - não aplica agenda, validade ou bloqueio de preços offline;
 - não prova que uma origem externa permite incorporação.
 
+## Temas reutilizáveis
+
+Em **Conteúdos → Criar conteúdo → Cartaz**, o grupo **Temas do cartaz** permite aplicar uma aparência, salvar a aparência atual com um nome e definir ou remover o padrão de novos cartazes. Há quatro paletas próprias: Mercado, Hortifruti, Padaria e Açougue. Podem ser guardados até 100 temas personalizados no banco local, compartilhados pelo painel.
+
+O tema contém apenas cores de fundo/texto, fonte, tamanhos, unidade, cantos, degradê e cabeçalho. Não copia produtos, preços, título, mensagem, layout, orientação, duração ou validade. Aplicar um tema atualiza a prévia; é necessário **Salvar conteúdo** e publicar a playlist para mudar as telas no fluxo normal. O padrão nunca é reaplicado ao editar um cartaz existente. Se o usuário já começou a modificar o formulário, uma resposta tardia da consulta de temas não aplica o padrão sobre as alterações.
+
+Excluir um tema personalizado não modifica cartazes já salvos. Se era o padrão, o padrão é removido. Temas de fábrica não podem ser excluídos. As rotas `/api/poster-themes` exigem a sessão administrativa. Os testes cobrem persistência após reinício, validação, autenticação e preservação de publicações.
+
 ## Limites atuais
 
 Ainda não foram implementados, apesar de constarem na referência:
 
-- temas reutilizáveis, tema padrão e paleta por componente (fundo de destaque, caixa de preço, tags, linhas pares/ímpares);
+- paleta por componente (fundo de destaque, caixa de preço, tags, linhas pares/ímpares);
 - imagem de fundo e rotação de 90/180/270 graus;
 - seleção de playlists dentro do formulário do cartaz;
 - exportação para vídeo ou imagens em HD/Full HD;

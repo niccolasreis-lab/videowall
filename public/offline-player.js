@@ -1,5 +1,6 @@
 import {getState,putState,removeState,listEvents,putEvent,deleteEvents,clearEvents,markEventsOffline} from './offline-store.js';
 import {EVENT_TTL,mediaUrls} from './offline-policy.js';
+import {templateAssetUrls} from './table-templates.js';
 
 const PREFIX='videowall-media-v1-';
 export class OfflinePlayer{
@@ -32,7 +33,7 @@ export class OfflinePlayer{
   try{
    for(const url of urls){
     signal.throwIfAborted();
-    if(!/^\/media\/[\w-]+$/.test(url))throw new Error('Endereço de mídia inválido para download.');
+    if(!/^\/media\/[\w-]+$/.test(url) && !templateAssetUrls.has(url))throw new Error('Endereço de mídia inválido para download.');
     let stored=await cache.match(url);
     if(!stored){
      const old=this.snapshot?.cacheName && await (await this.caches.open(this.snapshot.cacheName)).match(url);

@@ -77,5 +77,5 @@ test('virtual content validates, publishes an immutable snapshot and keeps media
     assert.equal(JSON.parse(current.snapshot_json).playlistName,'Mix');
     assert.equal(JSON.parse(current.snapshot_json).items[0].mediaId,items[0].mediaId);
     assert.equal((await call('/api/playlists')).body[0].dirty,true);
-  } finally { await new Promise(resolve=>app.server.close(resolve)); app.close(); await rm(directory,{recursive:true,force:true}); }
+  } finally { await new Promise(resolve=>app.server.close(resolve)); await app.close(); await rm(directory,{recursive:true,force:true}); }
 });

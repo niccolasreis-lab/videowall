@@ -16,6 +16,20 @@ const formats = {
   'video/webm': { ext: 'webm', kind: 'video', check: b => b.subarray(0, 4).equals(Buffer.from([26,69,223,163])) },
 };
 
+export function identifyImage(header) {
+  // Some catalog assets use .png in their URL while containing AVIF bytes.
+  if(header.length>=24&&header.toString('ascii',4,8)==='ftyp'){
+    const size=header.readUInt32BE(0);
+    if(size>=20&&size<=header.length){
+      const brands=[header.toString('ascii',8,12)];
+      for(let offset=16;offset+4<=size;offset+=4)brands.push(header.toString('ascii',offset,offset+4));
+      if(brands.some(brand=>brand==='avif'||brand==='avis'))return {mime:'image/avif',ext:'avif'};
+    }
+  }
+  const match=Object.entries(formats).find(([,format])=>format.kind==='image'&&format.check(header));
+  return match ? {mime:match[0],ext:match[1].ext} : null;
+}
+
 export async function receiveMedia(req, dataDir, maxBytes) {
   const mime = (req.headers['content-type'] || '').split(';')[0];
   const format = formats[mime];
